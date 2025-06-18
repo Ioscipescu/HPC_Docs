@@ -18,10 +18,14 @@ jobs:
         
     - name: Set safe directory
       run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          
+
+    - name: Install dependancies
+      run: sudo apt install python3-pygments
+      
     - name: Generate pdfs 
       run: |
             cd "$GITHUB_WORKSPACE/SBATCH_Documentation"
+            lualatex --shell-escape main.tex
             lualatex --shell-escape main.tex
 
     - uses: stefanzweifel/git-auto-commit-action@v6
