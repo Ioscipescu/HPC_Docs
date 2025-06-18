@@ -1,0 +1,65 @@
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathpazo}
+\usepackage{tikz}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{sagetex}
+\usepackage{fancyhdr}
+% \usepackage[affil-it]{authblk}
+\usepackage[onehalfspacing]{setspace}
+\usepackage[letterpaper, , margin=1in]{geometry}
+\usepackage{titling}
+\usepackage{xcolor}
+\usepackage{minted}
+\usemintedstyle{perldoc}
+% \usepackage[
+% backend=biber,
+% style=alphabetic,
+% sorting=ynt
+% ]{biblatex}
+% \addbibresource{annot.bib}
+
+\definecolor{LightGray}{gray}{0.9}
+
+\usepackage{hyperref} % Needs to be the last package loaded
+\hypersetup{
+    colorlinks   = true,    % Colors links instead of ugly boxes
+    urlcolor     = blue,    % Color for external hyperlinks
+    linkcolor    = blue,    % Color of internal links
+    citecolor    = red,     % Color of citations
+    linktoc      = section  % Make only section number in TOC clickable
+}
+
+\setminted{
+    breaklines=true,
+    fontsize=\small,
+    bgcolor=LightGray,
+    frame=lines,
+    linenos=true,
+}
+
+\newenvironment{example}{
+  \subsection{Examples}
+  \begin{flushleft}
+}{
+  \end{flushleft}
+}
+\newenvironment{usecases}{
+  \subsection{Use Cases}
+  \begin{flushleft}
+}{
+  \end{flushleft}
+}
+
+\def\startdoc{{
+            \noindent\parbox{\linewidth}{%
+                \parbox{\linewidth}{\fontsize{16}{18}\selectfont\thetitle}\hfill%
+                }
+            \par\noindent\rule{\textwidth}{0.4pt}
+            \\
+            \\}}
+
+\date{\today}
