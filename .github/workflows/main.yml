@@ -22,7 +22,7 @@ jobs:
     - name: Generate pdfs 
       run: |
             cd "$GITHUB_WORKSPACE/SBATCH_Documentation"
-            lualatex main.tex
+            lualatex --shell-escape main.tex
 
     - uses: stefanzweifel/git-auto-commit-action@v6
       with:
