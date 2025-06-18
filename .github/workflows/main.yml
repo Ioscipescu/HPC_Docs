@@ -15,8 +15,10 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: ${{ github.head_ref }}
-        set-safe-directory: '/__w/HPC_Docs/HPC_Docs'
-    
+        
+    - name: Set safe directory
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          
     - name: Generate pdfs 
       run: |
             cd "$GITHUB_WORKSPACE/SBATCH_Documentation"
