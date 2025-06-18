@@ -4,19 +4,14 @@ on: [push, pull_request]
 
 jobs:
   build:
-
+    if: github.actor != 'github-actions'
     runs-on: ubuntu-latest
-
+    container:
+      image: texlive/texlive:latest
+      
     steps:
     - uses: actions/checkout@v4
-
-    - name: Install dependencies
-      run: |
-            sudo apt-get update -y \
-
-            # Install the full version 
-            sudo apt-get install texlive-full -y
-
+    
     - name: Generate pdfs 
       run: |
             cd /home/runner/work/HPC_Docs/HPC_Docs/SBATCH_Documentation
