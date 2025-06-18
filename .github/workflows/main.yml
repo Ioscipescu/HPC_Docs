@@ -4,7 +4,9 @@ on: [push, pull_request]
 
 jobs:
   build:
-    if: github.actor != 'github-actions[bot]'
+    permissions:
+      contents: write
+      
     runs-on: ubuntu-latest
     container:
       image: texlive/texlive:latest
