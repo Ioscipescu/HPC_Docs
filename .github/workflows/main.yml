@@ -4,6 +4,10 @@ on: [push, pull_request]
 
 jobs:
   build:
+    defaults:
+      run:
+        shell: bash
+        
     permissions:
       contents: write
       
