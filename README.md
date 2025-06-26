@@ -3,9 +3,9 @@ This repository contains assorted documentation for the Riviera HPC system at Co
 
 ## Table of Contents
 
+- [sBatch Documentation](https://github.com/Ioscipescu/HPC_Docs/blob/main/SBATCH_Documentation/main.pdf)
 - [Setting up LaTeX](#setting-up-latex)
 - [Editing or Adding to Documentation](#editing-or-adding-to-documentation)
-- [License](#license)
 
 ## Setting up LaTeX
 
