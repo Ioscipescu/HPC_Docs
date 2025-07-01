@@ -42,10 +42,10 @@ jobs:
           BUILD_ONBOARD=false
 
           for file in ${ALL_CHANGED_FILES}; do
-            if [[ ("$file" == SBATCH_Documentation/* && "$file" != SBATCH_Documentation/main.pdf) || "$file" == "header.tex" ]]; then
+            if [[ ("$file" == SBATCH_Documentation/* && "$file" != SBATCH_Documentation/main.pdf) || "$file" == "header.tex" || "$file" == ".github/workflows/main.yml"]]; then
               BUILD_SBATCH=true
             fi
-            if [[ ()"$file" == Onboard_QuickStart/* &&  "$file" != Onboard_QuickStart/main.pdf)|| "$file" == "header.tex" ]]; then
+            if [[ ("$file" == Onboard_QuickStart/* &&  "$file" != Onboard_QuickStart/main.pdf) || "$file" == "header.tex" || "$file" == ".github/workflows/main.yml"]]; then
               BUILD_ONBOARD=true
             fi
           done
