@@ -41,7 +41,7 @@ jobs:
           BUILD_SBATCH=false
           BUILD_ONBOARD=false
 
-          for file in ${ALL_CHANGED_FILES}; do
+          for file in ${ALL_CHANGED_FILES} do
             if [[ ("$file" == SBATCH_Documentation/* && "$file" != SBATCH_Documentation/main.pdf) || "$file" == "header.tex" || "$file" == ".github/workflows/main.yml"]]; then
               BUILD_SBATCH=true
             fi
