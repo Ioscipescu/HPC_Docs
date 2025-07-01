@@ -64,6 +64,9 @@ This repository contains assorted documentation for the Riviera HPC system at Co
 ``` txt
 HPC_Latex_Documentation/
 ├── header.tex
+├── Onboard_QuickStart
+│   ├── main.pdf
+│   └── main.tex
 ├── README.md
 └── SBATCH_Documentation
     ├── main.pdf
@@ -73,14 +76,27 @@ HPC_Latex_Documentation/
     │   │   └── array-example.sh
     │   ├── MPI
     │   │   ├── mpi-binary-search.c
-    │   │   └── mpi-bin.s
-    │   └── OpenMP
-    │       ├── openmp-binary-search.c
-    │       └── openmp-bin.sh
+    │   │   └── mpi-bin.sh
+    │   ├── OpenMP
+    │   │   ├── openmp-binary-search.c
+    │   │   └── openmp-bin.sh
+    │   └── PyTorch
+    │       ├── cuda
+    │       │   ├── pytorch-cuda.py
+    │       │   └── pytorch-cuda.sh
+    │       ├── nlp
+    │       │   ├── nlp.py
+    │       │   └── pytorch-nlp.sh
+    │       └── stream
+    │           ├── pytorch-stream.py
+    │           └── pytorch-stream.sh
     └── use_cases
+        ├── cuda.tex
         ├── job_arrays.tex
         ├── MPI.tex
-        └── OpenMP.tex
+        ├── OpenMP.tex
+        └── pytorch.tex
+
 ```
 
 - header.tex contains all of the package declarations needed for the documentation and also sets up a couple of environments and package specific settings.
@@ -89,6 +105,7 @@ HPC_Latex_Documentation/
   - main.tex collects all sub-files to be able to create main.pdf.
   - source_code contains all code examples for SBATCH tasks, both the SBATCH .sh files and when needed the corresponding program files (such as C programs to show how MPI and OpenMP work).
   - use_cases contains tex files for every specific use case (job_arrays, MPI, OpenMP, etc) that is then imported into main.tex. Splitting files up like this will help manage merge conflicts if multiple people are attempting to edit documentation.
+- Onboarding_QuickStart contains all sourcecode for the Onboarding documentation.
 
 ### Best Practices
 
