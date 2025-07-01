@@ -28,12 +28,45 @@ jobs:
         
     - name: Set safe directory
       run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Get changed files
+      id: changed-files
+      uses:  tj-actions/changed-files@v46
       
-    - name: Generate pdfs 
+    - name: Detect changed files
+      id: changes
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |
-            cd "$GITHUB_WORKSPACE/SBATCH_Documentation"
-            lualatex --shell-escape main.tex
-            lualatex --shell-escape main.tex
+          BUILD_SBATCH=false
+          BUILD_ONBOARD=false
+
+          for file in ${ALL_CHANGED_FILES}; do
+            if [[ ("$file" == SBATCH_Documentation/* && "$file" != SBATCH_Documentation/main.pdf) || "$file" == "header.tex" ]]; then
+              BUILD_SBATCH=true
+            fi
+            if [[ ()"$file" == Onboard_QuickStart/* &&  "$file" != Onboard_QuickStart/main.pdf)|| "$file" == "header.tex" ]]; then
+              BUILD_ONBOARD=true
+            fi
+          done
+
+          echo "build_sbatch=$BUILD_SBATCH" >> "$GITHUB_OUTPUT"
+          echo "build_onboard=$BUILD_ONBOARD" >> "$GITHUB_OUTPUT"
+
+
+    - name: Build SBATCH_Documentation PDF
+      if: steps.changes.outputs.build_sbatch == 'true'
+      run: |
+          cd "$GITHUB_WORKSPACE/SBATCH_Documentation"
+          lualatex --shell-escape main.tex
+          lualatex --shell-escape main.tex
+
+    - name: Build Onboard_QuickStart PDF
+      if: steps.changes.outputs.build_onboard == 'true'
+      run: |
+          cd "$GITHUB_WORKSPACE/Onboard_QuickStart"
+          lualatex --shell-escape main.tex
+          lualatex --shell-escape main.tex
 
     - uses: stefanzweifel/git-auto-commit-action@v6
       with:
