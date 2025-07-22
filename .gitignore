@@ -7,3 +7,12 @@
 .vscode
 _minted
 *.docx
+*.nav
+*.snm
+*.bcf
+*.bbl
+*.xml
+*.blg
+*.toc
+*.tar*
+*.sif*

@@ -1,0 +1,96 @@
+\documentclass[11pt,letterpaper]{article} 
+
+\input{../header}
+
+\title{Riviera Singularity Guide}
+
+\begin{document}
+\startdoc
+
+\section{Running a Basic Image}
+To get started with using singularity on Riviera to run docker images we will start with a very basic docker image that only executes a python file and builds on the latest ubuntu image. We can start by making a directory called BasicImage and adding these files to it.
+
+\noindent\textbf{Dockerfile}\vspace{-1em}
+\inputminted{docker}{Dockerfiles/BasicImage/Dockerfile}
+
+\noindent\textbf{test.py}\vspace{-1em}
+\inputminted{python3}{Dockerfiles/BasicImage/test.py}
+
+Now that we have a basic Dockerfile set up we can build the docker image with docker and then save it in a form that Singularity will be able to work with. To do that we need docker running on our local machines, \href{https://www.docker.com/products/docker-desktop/}{Docker Desktop} is the easiest way to have docker running locally. 
+
+\begin{minted}{bash}
+$ cd BasicImage/
+$ docker build -t basicimage .
+$ docker save basicimage -o basicimage.tar
+\end{minted}
+
+We now have everything we need to run this docker image with singularity on Riviera, so now all we need to do is transfer our image archive and python script over.
+
+\begin{minted}{bash}
+$ scp basicimage.tar test.py your_username@riviera.colostate.edu:~/your_directory
+\end{minted}
+
+Now that it is transferred over we need to ssh into Riviera and we can run the container with singularity. When running with singularity we first build the image into a .sif file targeting the docker archive .tar file we just transferred over. We can then run the container making sure that the python file is in the current directory.
+
+\begin{minted}{bash}
+[your_username@login001]$ cd your_directory/
+[your_username@login001]$ module load slurm
+[your_username@login001]$ module load singularity
+[your_username@login001]$ srun --pty bash
+bash-4.4$ singularity build basicimage.sif docker-archive://basicimage.tar
+WARNING: 'nodev' mount option set on /tmp, it could be a source of failure during build process
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+INFO:    Inserting Singularity configuration...
+INFO:    Creating SIF file...
+INFO:    Build complete: basicimage.sif
+bash-4.4$ singularity run basicimage.sif
+Hello, Docker!
+bash-4.4$ exit
+[your_username@login001]$
+\end{minted}
+
+\section{PyTorch image}
+Here is an example of building a more advanced container for use with PyTorch. This image is notable because we do not specify a a command but instead an entrypoint. This allows us to change what python file we execute with the container.
+
+\noindent\textbf{Dockerfile}\vspace{-1em}
+\inputminted{docker}{Dockerfiles/PyTorch/Dockerfile}
+
+Now that we have our dockerfile we can build our pytorch container and transfer it over to Riviera. Due to the size of the base nvidia container and the libraries being installed this will take some time. This can also all be sped up by carefully selecting the files that need to be installed and using a lighter weight image like the rocky linux one from nvidia for cuda.
+
+\begin{minted}{bash}
+$ cd PyTorch/
+$ docker build -t pytorchimage .
+$ docker save pytorchimage -o pytorchimage.tar
+$ scp pytorchimage.tar your_username@riviera.colostate.edu:~/your_directory
+\end{minted}
+
+Now that our container archive is transferred over we can build it with singularity. Due to the size of the container building it with singularity will overrun the default tmp directory on Riviera, so we will need to specify a new temp directory to use before building such as \mintinline{bash}|~/tmp|.
+
+\begin{minted}{bash}
+[your_username@login001]$ mkdir your_temp_directory
+[your_username@login001]$ export TMPDIR=~/your_temp_directory
+[your_username@login001]$ cd your_directory/
+[your_username@login001]$ module load slurm
+[your_username@login001]$ module load singularity
+[your_username@login001]$ srun --pty bash
+bash-4.4$ singularity build pytorchimage.sif docker-archive://pytorchimage.tar
+bash-4.4$ exit
+[your_username@login001]$
+\end{minted}
+
+We have now built our pytorch container with singularity. To run it we need to load our cuda modules and make sure that we tell singularity to use nvidia GPUs with the \mintinline{bash}|--nv| flag. We also need to make sure to be in a partition with GPUs when we run this container with pytorch. We will also need to pass the container a python file to run.
+
+\begin{minted}{bash}
+[your_username@login001]$ module load cuda12.2/blas
+[your_username@login001]$ module load cuda12.2/fft
+[your_username@login001]$ module load cuda12.2/toolkit
+[your_username@login001]$ srun --pty --partition=short-gpu bash
+bash-4.4$ singularity run --nv pytorchimage.sif your_python_file.py
+bash-4.4$ exit
+[your_username@login001]$
+\end{minted}
+
+
+\end{document}

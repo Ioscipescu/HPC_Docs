@@ -40,6 +40,7 @@ jobs:
       run: |
         BUILD_SBATCH=false
         BUILD_ONBOARD=false
+        BUILD_DOCKER=false
 
         # Read ALL_CHANGED_FILES into an array, splitting on newlines
         IFS=$'\n' read -r -d '' -a changed_files < <(printf '%s\0' "$ALL_CHANGED_FILES")
@@ -53,14 +54,20 @@ jobs:
             BUILD_ONBOARD=true
           fi
 
+          if [[ "$file" == Docker/* && "$file" != Docker/main.pdf ]]; then
+            BUILD_DOCKER=true
+          fi
+
           if [[ "$file" == "header.tex" || "$file" == ".github/workflows/main.yml" ]]; then
             BUILD_SBATCH=true
             BUILD_ONBOARD=true
+            BUILD_DOCKER=true
           fi
         done
 
         echo "build_sbatch=$BUILD_SBATCH" >> "$GITHUB_OUTPUT"
         echo "build_onboard=$BUILD_ONBOARD" >> "$GITHUB_OUTPUT"
+        echo "build_docker=$BUILD_DOCKER" >> "$GITHUB_OUTPUT"
 
 
     - name: Build SBATCH_Documentation PDF
@@ -74,6 +81,13 @@ jobs:
       if: steps.changes.outputs.build_onboard == 'true'
       run: |
           cd "$GITHUB_WORKSPACE/Onboard_QuickStart"
+          lualatex --shell-escape main.tex
+          lualatex --shell-escape main.tex
+
+    - name: Build Docker PDF
+      if: steps.changes.outputs.build_docker == 'true'
+      run: |
+          cd "$GITHUB_WORKSPACE/Docker"
           lualatex --shell-escape main.tex
           lualatex --shell-escape main.tex
 

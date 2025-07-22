@@ -1,0 +1,223 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% The CSU Beamer Style
+%%
+%% For making Beamer presentations in LaTeX at
+%% Colorado State University
+%% 
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesPackage{beamerthemecsubeamer}[2019/10/13]
+% \mode<presentation>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        Import Preliminary Packages         %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{etoolbox,xparse}
+\RequirePackage{tikz,color,lmodern}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        Process the Background Option       %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\beamer@background{csu-energy-background}
+\DeclareOptionBeamer{background}{\def\beamer@background{#1}}
+\newif\ifsimple
+\simplefalse
+\DeclareOptionBeamer{simple}{\simpletrue}
+\ProcessOptionsBeamer
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        Import & Reset Basic Themes         %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usecolortheme{csucolors}
+\ifsimple
+    \useoutertheme{infolines}
+    \setbeamertemplate{headline}{}
+    \setbeamertemplate{blocks}[rounded][shadow=false]
+    
+    \setbeamercolor{titlelike}{fg=csugreen,bg=white}
+    \setbeamercolor{author in head/foot}{fg=white,bg=csugreen}
+    \setbeamercolor{title in head/foot}{fg=white,bg= energygreen}
+    \setbeamercolor{date in head/foot}{fg=white,bg=csugreen}
+    
+    \setbeamertemplate{footline}
+    {
+      \leavevmode%
+      \hbox{%
+      \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \usebeamerfont{author in head/foot}\insertshortauthor
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshorttitle
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+        \usebeamerfont{date in head/foot}\insertdate \, \insertframenumber/\inserttotalframenumber
+      \end{beamercolorbox}}%
+      \vskip0pt%
+    }
+\else
+    \useinnertheme[shadow=true]{rounded}
+    \useoutertheme{infolines}
+    \setbeamercolor{section in head/foot}{bg=csugreen,fg=white}
+    \setbeamercolor{subsection in head/foot}{bg=black,fg=white}
+    \setbeamercolor{author in head/foot}{bg=csugreen,fg=white}
+    \setbeamercolor{title in head/foot}{bg=energygreen,fg=black}
+    \setbeamercolor{date in head/foot}{bg = csugreen, fg=white}
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        Some Set Style Changes              %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamerfont{block title}{size={}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{items}[round]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        Define Backup Slide Counter         %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NewDocumentCommand\beginbackup{}{
+   \newcounter{framenumbervorappendix}
+   \setcounter{framenumbervorappendix}{\value{framenumber}}
+}
+\NewDocumentCommand\backupend{}{
+   \addtocounter{framenumbervorappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumbervorappendix}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%        Define Special Slides               %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifsimple
+    \setbeamercolor{back}{fg=white,bg=white}
+    %% TITLE FRAME
+    \NewDocumentCommand\maketitleframe{}{
+    {\setbeamertemplate{footline}{}
+    \begin{frame}[b]%\centering
+         \maketitle\par
+         \begin{beamercolorbox}[center,wd=\textwidth]{back}
+         \vspace*{0.1in}\par
+         \begin{beamercolorbox}[center,wd=\paperwidth]{block title}%
+              \vspace*{0.1in}\par
+              \includegraphics[height=0.1\paperheight]{CSU-Signature-White.png}\par
+              \vspace*{0.1in}
+         \end{beamercolorbox}
+         \vspace*{0.1in}\par
+         \end{beamercolorbox}
+    \end{frame}}\addtocounter{framenumber}{-1}
+    }
+    %% END FRAME WITH ONE LINE OF TEXT
+    \NewDocumentCommand\endframeone{m}{
+    {\setbeamertemplate{footline}{}
+    \begin{frame}[b]
+         \centering\huge #1\vfill
+         
+         \begin{beamercolorbox}[center,wd=\textwidth]{back}
+         \vspace*{0.1in}\par
+         \begin{beamercolorbox}[center,wd=\paperwidth]{block title}%
+              \vspace*{0.1in}\par
+              \includegraphics[height=0.1\paperheight]{CSU-Signature-White.png}\par
+              \vspace*{0.1in}
+         \end{beamercolorbox}
+         \vspace*{0.1in}\par
+         \end{beamercolorbox}
+    \end{frame}}
+    }
+    %% END FRAME WITH TWO LINES OF TEXT
+    \NewDocumentCommand\endframetwo{m m}{
+    {\setbeamertemplate{footline}{}
+    \begin{frame}[b]
+         \centering\huge #1\par #2\vfill
+         
+         \begin{beamercolorbox}[center,wd=\textwidth]{back}
+         \vspace*{0.1in}\par
+         \begin{beamercolorbox}[center,wd=\paperwidth]{block title}%
+              \vspace*{0.1in}\par
+              \includegraphics[height=0.1\paperheight]{CSU-Signature-White.png}\par
+              \vspace*{0.1in}
+         \end{beamercolorbox}
+         \vspace*{0.1in}\par
+         \end{beamercolorbox}
+    \end{frame}}
+    }
+\else
+    \ifdimequal{\beamer@paperwidth}{16.00cm}
+        {\def\TFwid{.13\textwidth} \def\EFshift{10pt}}
+        {\def\TFwid{.25\textwidth} \def\EFshift{30pt}}
+    
+    %% Controls Colors in Title Frame and Thank You Slides
+    %the color bar
+    \setbeamercolor{headline}{fg=black,bg=energygreen}
+    %the center titles
+    \setbeamercolor{headline2}{fg=black,bg=white}
+    %% TITLE FRAME
+    \NewDocumentCommand\maketitleframe{}{
+    \begin{frame}[plain,t]
+      \begin{tikzpicture}[remember picture, overlay]
+        \draw[fill=csugreen] (current page.south west) rectangle (current page.north east);
+        \node at (current page.center) {\includegraphics[width=\paperwidth,height=\paperheight]{\beamer@background.png}};
+        \draw[fill=csugreen] (current page.west) rectangle (current page.south east);
+        \node[inner sep=0pt,anchor=south west] (logo) at (current page.south west) {\includegraphics[width=.3\textwidth]{CSU-Signature-White.png}};
+      \end{tikzpicture}
+      
+      \vspace*{25pt}
+    
+      \begin{beamercolorbox}[rounded=false,center,shadow=false,wd=\paperwidth,ht=175pt,dp=5pt]{headline}
+         \begin{beamercolorbox}[rounded=false,center,shadow=false,wd=\paperwidth,ht=170pt]{headline2}
+           \begin{minipage}[c]{\textwidth}
+             \maketitle
+           \end{minipage}
+           \vspace{10pt}
+         \end{beamercolorbox}
+      \end{beamercolorbox}
+    \end{frame}
+    }
+    
+    %% END FRAME WITH ONE LINE OF TEXT
+    \NewDocumentCommand\endframeone{m}{
+    \begin{frame}[plain,t]
+      \begin{tikzpicture}[remember picture, overlay]
+        \draw[fill=csugreen] (current page.south west) rectangle (current page.north east);
+        \node at (current page.center) {\includegraphics[width=\paperwidth,height=\paperheight]{\beamer@background.png}};
+        \draw[fill=csugreen] (current page.west) rectangle (current page.south east);
+        \node[inner sep=6pt,anchor=south,yshift=\EFshift] (logo) at (current page.south) {\includegraphics[width=.3\textwidth]{CSU-Signature-White.png}};
+      \end{tikzpicture}
+      
+      \vspace*{70pt}
+    
+      \begin{beamercolorbox}[rounded=false,center,shadow=false,wd=\paperwidth,ht=75pt,dp=5pt]{headline}
+         \begin{beamercolorbox}[rounded=false,center,shadow=false,wd=\paperwidth,ht=70pt,dp=0pt]{headline2}
+           \begin{minipage}[c]{\textwidth}
+             \centering\Huge #1
+           \end{minipage}
+           \vspace{25pt}
+         \end{beamercolorbox}
+      \end{beamercolorbox}
+    \end{frame}
+    }
+    
+    %% END FRAME WITH TWO LINES OF TEXT
+    \NewDocumentCommand\endframetwo{m m}{
+    \begin{frame}[plain,t]
+      \begin{tikzpicture}[remember picture, overlay]
+        \draw[fill=csugreen] (current page.south west) rectangle (current page.north east);
+        \node at (current page.center) {\includegraphics[width=\paperwidth,height=\paperheight]{\beamer@background.png}};
+        \draw[fill=csugreen] (current page.west) rectangle (current page.south east);
+        \node[inner sep=6pt,anchor=south,yshift=\EFshift] (logo) at (current page.south) {\includegraphics[width=.3\textwidth]{CSU-Signature-White.png}};
+      \end{tikzpicture}
+      
+      \vspace*{70pt}
+    
+      \begin{beamercolorbox}[rounded=false,center,shadow=false,wd=\paperwidth,ht=85pt,dp=5pt]{headline}
+         \begin{beamercolorbox}[rounded=false,center,shadow=false,wd=\paperwidth,ht=80pt,dp=0pt]{headline2}
+           \begin{minipage}[c]{\textwidth}
+             \centering\Huge #1 \\ #2
+           \end{minipage}
+           \vspace{12pt}
+         \end{beamercolorbox}
+      \end{beamercolorbox}
+    \end{frame}
+    }
+\fi
+
+% \mode<all>
