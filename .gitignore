@@ -9,10 +9,13 @@ _minted
 *.docx
 *.nav
 *.snm
-*.bcf
-*.bbl
+*.bcf*
+*.bbl*
 *.xml
 *.blg
 *.toc
 *.tar*
 *.sif*
+*.fdb_latexmk
+*.fls
+*.vrb

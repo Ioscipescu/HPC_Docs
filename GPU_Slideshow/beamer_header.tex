@@ -7,11 +7,16 @@
 \usepackage{tikz}
 \usepackage{parskip}
 \usepackage{enumitem}
+\setlist[itemize]{label=\textbullet}
 \usepackage{multicol}
 % \usepackage{sagetex}
 \usepackage{fancyhdr}
 % \usepackage[onehalfspacing]{setspace}
 % \usepackage{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{luacolor} % Required to use the lua-ul \highLight command 
+\usepackage{lua-ul}
 \usepackage{minted}
 \usemintedstyle{perldoc}
 \usepackage[
@@ -23,6 +28,7 @@ sorting=ynt
 
 \definecolor{LightGray}{gray}{0.9}
 
+\LuaULSetHighLightColor{LightGray}
 \usepackage{hyperref} % Needs to be the last package loaded
 \hypersetup{
     colorlinks   = false,    % Colors links instead of ugly boxes
@@ -34,11 +40,11 @@ sorting=ynt
 
 \setminted{
     breaklines=true,
-    fontsize=\small,
+    % fontsize=\small,
     bgcolor=LightGray,
-    frame=lines,
+    frame=single,
     linenos=false,
 }
 
-\usetheme[]{csubeamer}
+\usetheme{csubeamer}
 \usecolortheme{csucolors}
