@@ -19,8 +19,8 @@
 	\begin{itemize}
 		\item GPUs are much better at highly parallelized tasks and much worse at highly serialized tasks than CPUs due to the difference in the number of cores in the architectures of CPUs and GPUs.
 		      \begin{itemize}
-			      \item CPUs have few very fast cores with advanced control units and access to much larger L1, L2, and L3 caches. \cite{gpuVsCpu}
-			      \item GPUs have hundreds or even thousands of small slower cores that operate under a Single Instruction, Multiple Data (SIMD) model so a single control unit can control many cores at once. \cite{gpuVsCpu}
+			      \item CPUs have few very fast cores with advanced control units and access to much larger L1, L2, and L3 caches. 
+            \item GPUs have hundreds or even thousands of small slower cores that operate under a Single Instruction, Multiple Data (SIMD) model so a single control unit can control many cores at once. 
 		      \end{itemize}
 		\item GPUs in particular excel at tasks such as machine learning and scientific computing.
 	\end{itemize}
@@ -30,7 +30,7 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=.4]{figures/gpu-vs-cpu.png}
-		\caption{An example of CPU vs GPU core architecture from \textcite{nivdiaCuda}}
+    \caption{An example of CPU vs GPU core architecture from Nvidia}
 	\end{figure}
 \end{frame}
 
@@ -62,13 +62,13 @@ __global__ void vector_add (float *out, float *a, float *b, int n) {
 \begin{frame}[fragile]{Calling Kernels}
 	Once a kernel is declared, it can be called and assigned a number of threads using the \highLight{\texttt{<\vphantom{}<\vphantom{}<a,b>\vphantom{}>\vphantom{}>}} execution configuration syntax. When calling a kernel the first number \mintinline{cuda}{a} represents the number of blocks in the grid and the second number \mintinline{cuda}{b} represents the number of threads per block. This means that a total of \(a \times b\) threads are spawned organized as \mintinline{cuda}{a} blocks of \mintinline{cuda}{b} threads.
 
-	\begin{minted}{Cuda}
-		int main()
-		{
-			...
-			VecAdd<<<1, N>>>(A, B, C)
-			...
-		}
+	\begin{minted}[escapeinside=||]{Cuda}
+int main()
+{
+  ...
+  VecAdd<|\vphantom|<|\vphantom|<1, N>|\vphantom|>|\vphantom|>(A, B, C)
+  ...
+}
   \end{minted}
 \end{frame}
 
@@ -163,8 +163,8 @@ deactivate # Deactivate python virtual environment with PyTorch installed
 	\end{minted}
 \end{frame}
 
-\begin{frame}{References}
-	\printbibliography[heading=bibintoc]
-\end{frame}
+% \begin{frame}{References}
+% 	\printbibliography[heading=bibintoc]
+% \end{frame}
 
 \end{document}
