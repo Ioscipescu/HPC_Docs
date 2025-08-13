@@ -1,5 +1,3 @@
-%! TeX root = main.tex
-
 \documentclass[aspectratio=169]{beamer} 
 
 \input{beamer_header}
@@ -19,8 +17,8 @@
 	\begin{itemize}
 		\item GPUs are much better at highly parallelized tasks and much worse at highly serialized tasks than CPUs due to the difference in the number of cores in the architectures of CPUs and GPUs.
 		      \begin{itemize}
-			      \item CPUs have few very fast cores with advanced control units and access to much larger L1, L2, and L3 caches. 
-            \item GPUs have hundreds or even thousands of small slower cores that operate under a Single Instruction, Multiple Data (SIMD) model so a single control unit can control many cores at once. 
+            \item CPUs have few very fast cores with advanced control units and access to much larger L1, L2, and L3 caches. \cite{gpuVsCpu}
+            \item GPUs have hundreds or even thousands of small slower cores that operate under a Single Instruction, Multiple Data (SIMD) model so, a single control unit can control many cores at once. \cite{gpuVsCpu}
 		      \end{itemize}
 		\item GPUs in particular excel at tasks such as machine learning and scientific computing.
 	\end{itemize}
@@ -30,7 +28,7 @@
 	\begin{figure}
 		\centering
 		\includegraphics[scale=.4]{figures/gpu-vs-cpu.png}
-    \caption{An example of CPU vs GPU core architecture from Nvidia}
+    \caption{An example of CPU vs GPU core architecture from \cite{nivdiaCuda}}
 	\end{figure}
 \end{frame}
 
@@ -40,7 +38,7 @@
 	\begin{itemize}
 		\item CUDA is Nvidia's parallel computation platform and programming model that allows developers to do computation on CUDA supported GPUs.
 		\item CUDA allows developers to interact directly with GPU hardware for parallelized tasks.
-		\item CUDA works with a multitude of languages including C, C++, Fortran, Python, and Julia, but C++ and Python are the most common to use on Riviera.
+		\item CUDA works with a multitude of languages including C, C++, FORTRAN, Python, and Julia, but C++ and Python are the most common to use on Riviera.
 	\end{itemize}
 \end{frame}
 
@@ -60,7 +58,7 @@ __global__ void vector_add (float *out, float *a, float *b, int n) {
 \end{frame}
 
 \begin{frame}[fragile]{Calling Kernels}
-	Once a kernel is declared, it can be called and assigned a number of threads using the \highLight{\texttt{<\vphantom{}<\vphantom{}<a,b>\vphantom{}>\vphantom{}>}} execution configuration syntax. When calling a kernel the first number \mintinline{cuda}{a} represents the number of blocks in the grid and the second number \mintinline{cuda}{b} represents the number of threads per block. This means that a total of \(a \times b\) threads are spawned organized as \mintinline{cuda}{a} blocks of \mintinline{cuda}{b} threads.
+Once a kernel is declared, it can be called and assigned a number of threads using the \mintinline[escapeinside=||]{cuda}{<|\vphantom{}|<|\vphantom{}|<a, b>|\vphantom{}|>|\vphantom{}|>} execution configuration syntax. When calling a kernel the first number \mintinline{cuda}{a} represents the number of blocks in the grid and the second number \mintinline{cuda}{b} represents the number of threads per block. This means that a total of \(a \times b\) threads are spawned organized as \mintinline{cuda}{a} blocks of \mintinline{cuda}{b} threads.
 
 	\begin{minted}[escapeinside=||]{Cuda}
 int main()
@@ -163,8 +161,9 @@ deactivate # Deactivate python virtual environment with PyTorch installed
 	\end{minted}
 \end{frame}
 
-% \begin{frame}{References}
-% 	\printbibliography[heading=bibintoc]
-% \end{frame}
+\begin{frame}{References}
+  \nocite{*}
+ 	\printbibliography[heading=bibintoc]
+\end{frame}
 
 \end{document}
